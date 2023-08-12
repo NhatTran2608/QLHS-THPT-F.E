@@ -73,13 +73,13 @@ export default {
 
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/teacher/class-student/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/teacher/class-student/${this.id}`)
             .then(res => {
                 this.Teacher = res.data
                 this.Temp = this.Teacher.form_teacherID.students
                 if (this.Teacher.form_teacherID != undefined) {
                     for (let index = 0; index < this.Temp.length; index++) {
-                        axios.get(`http://localhost:3000/student/infostudent/${this.Temp[index]}`)
+                        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.Temp[index]}`)
                             .then(res => {
                                 this.Student.push(res.data)
                             })
@@ -98,7 +98,7 @@ export default {
     methods: {
         copyID(userID) {
             this.ID = userID.resultID._id
-            axios.get(`http://localhost:3000/scores/show/summary/${this.ID}`)
+            axios.get(`https://htqlthpt.onrender.com/scores/show/summary/${this.ID}`)
                 .then(res => {
                     this.resultID = res.data
                 })
@@ -108,7 +108,7 @@ export default {
         },
         submitID() {
 
-            axios.put(`http://localhost:3000/scores/update/summary/${this.ID}`, this.resultID)
+            axios.put(`https://htqlthpt.onrender.com/scores/update/summary/${this.ID}`, this.resultID)
                 .then(() => {
                     window.location.reload()
                 })

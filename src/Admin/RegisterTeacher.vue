@@ -181,7 +181,7 @@ export default {
     },
 
     created() {
-        axios.get(`http://localhost:3000/class/show`)
+        axios.get(`https://htqlthpt.onrender.com/class/show`)
             .then(res => {
                 this.Class = res.data;
             })
@@ -197,7 +197,7 @@ export default {
             this.Teacher.huyen = this.huyen.Name
             this.Teacher.xa = this.xa.Name
             console.log(this.Teacher);
-            axios.post('http://localhost:3000/auth/register/teacher', this.Teacher)
+            axios.post('https://htqlthpt.onrender.com/auth/register/teacher', this.Teacher)
                 .then(res => {
                     this.Teacher = '';
                     this.grade = '';

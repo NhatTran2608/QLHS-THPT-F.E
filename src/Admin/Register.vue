@@ -234,7 +234,7 @@ export default {
     },
 
     created() {
-        axios.get(`http://localhost:3000/class/show`)
+        axios.get(`https://htqlthpt.onrender.com/class/show`)
             .then(res => {
                 this.Class = res.data;
               //  console.log(this.selectedId)
@@ -252,7 +252,7 @@ export default {
             this.Student.tp = this.tp.Name
             this.Student.huyen = this.huyen.Name
             this.Student.xa = this.xa.Name
-            axios.post('http://localhost:3000/auth/register/student', this.Student)
+            axios.post('https://htqlthpt.onrender.com/auth/register/student', this.Student)
                 .then(res => {
                     this.Student = '';
                     alert("Đăng ký tài khoản thành công")

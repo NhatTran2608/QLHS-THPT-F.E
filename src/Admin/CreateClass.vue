@@ -148,21 +148,21 @@ export default {
         }
     },
     created() {
-        axios.get(`http://localhost:3000/class/show/class10`)
+        axios.get(`https://htqlthpt.onrender.com/class/show/class10`)
             .then(res => {
                 this.List10 = res.data;
             })
             .catch(err => {
                 console.log(err);
             }),
-            axios.get(`http://localhost:3000/class/show/class11`)
+            axios.get(`https://htqlthpt.onrender.com/class/show/class11`)
                 .then(res => {
                     this.List11 = res.data;
                 })
                 .catch(err => {
                     console.log(err);
                 }),
-            axios.get(`http://localhost:3000/class/show/class12`)
+            axios.get(`https://htqlthpt.onrender.com/class/show/class12`)
                 .then(res => {
                     this.List12 = res.data;
                 })
@@ -172,7 +172,7 @@ export default {
     },
     methods: {
         create_class() {
-            axios.post(`http://localhost:3000/class/add`, this.Class)
+            axios.post(`https://htqlthpt.onrender.com/class/add`, this.Class)
                 .then(res => {
                     this.Class = ''
                     window.location.reload()

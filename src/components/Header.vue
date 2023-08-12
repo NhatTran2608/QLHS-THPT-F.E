@@ -67,7 +67,7 @@ export default {
 
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
             })
@@ -92,7 +92,7 @@ export default {
             reader.onload = e => {
                 this.Student.avatar = e.target.result;
                 //console.log(this.previewImage);
-                axios.put(`http://localhost:3000/student/edit/${this.id}`, this.Student)
+                axios.put(`https://htqlthpt.onrender.com/student/edit/${this.id}`, this.Student)
                 .then(() => {
                     window.location.reload()
                 },)

@@ -71,10 +71,10 @@ export default {
     },
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
-                axios.get(`http://localhost:3000/teacher/show/${this.Student.myclassID.organizer}`)
+                axios.get(`https://htqlthpt.onrender.com/teacher/show/${this.Student.myclassID.organizer}`)
                     .then(res => {
                         this.Teacher = res.data
                     })

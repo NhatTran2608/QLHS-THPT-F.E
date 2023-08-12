@@ -164,7 +164,7 @@ export default {
         this.chartData.datasets[0].data[3] = JSON.parse(localStorage.getItem('dtb'))
         const subject = JSON.parse(localStorage.getItem('user')).subject
         const id = JSON.parse(localStorage.getItem('classid'))
-        axios.get(`http://localhost:3000/class/info/${id}`)
+        axios.get(`https://htqlthpt.onrender.com/class/info/${id}`)
             .then(res => {
                 this.Class = res.data
                 const listStudents = res.data.students
@@ -175,7 +175,7 @@ export default {
                     this.Scores.push({})
                 }
                 for (let indexz = 0; indexz < this.temp.length; indexz++) {
-                    axios.get(`http://localhost:3000/student/infostudent/${this.temp[indexz]}`)
+                    axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.temp[indexz]}`)
                         .then(res => {
                             const studentID = res.data._id
                             for (let i = 0; i < this.temp.length; i++) {
@@ -240,7 +240,7 @@ export default {
             localStorage.setItem('k', JSON.stringify(this.k))
             localStorage.setItem('tb', JSON.stringify(this.tb))
             localStorage.setItem('dtb', JSON.stringify(this.dtb))
-            axios.post(`http://localhost:3000/scores/create`, this.Scores)
+            axios.post(`https://htqlthpt.onrender.com/scores/create`, this.Scores)
                 .then(() => {
                     console.log(this.Scores);
                     // alert('Cập nhật thành công điểm số');

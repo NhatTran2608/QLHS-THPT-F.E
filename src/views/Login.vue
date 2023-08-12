@@ -60,7 +60,7 @@ export default {
     },
     methods: {
         async login() {
-            axios.post(`http://localhost:3000/auth/login`, this.User)
+            axios.post(`https://htqlthpt.onrender.com/auth/login`, this.User)
                 .then(res => {
                     localStorage.setItem('user', JSON.stringify(res.data))
                     if (res.data.role === 'AD') {

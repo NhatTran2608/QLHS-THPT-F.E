@@ -90,7 +90,7 @@ export default {
     created() {
         this.id = JSON.parse(localStorage.getItem('editclassid'))._id
         this.subject = JSON.parse(localStorage.getItem('editclassid')).subject
-        axios.get(`http://localhost:3000/teacher/show/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/teacher/show/${this.id}`)
             .then(res => {
                 this.Teacher = res.data
             })
@@ -99,7 +99,7 @@ export default {
             })
         
 
-        axios.get('http://localhost:3000/class/show')
+        axios.get('https://htqlthpt.onrender.com/class/show')
             .then(res => {
                 this.results = [];
                 for (let index = 0; index < res.data.length; index++) {
@@ -122,7 +122,7 @@ export default {
                 console.log(err, 'err');
             })
 
-        axios.get('http://localhost:3000/class/show')
+        axios.get('https://htqlthpt.onrender.com/class/show')
             .then(res => {
                 for (let index = 0; index < res.data.length; index++) {
                     if (res.data[index].organizer == undefined) {
@@ -148,7 +148,7 @@ export default {
         },
 
         addClass() {
-            axios.patch(`http://localhost:3000/teacher/update/${this.id}`, this.Teacher)
+            axios.patch(`https://htqlthpt.onrender.com/teacher/update/${this.id}`, this.Teacher)
                 .then(() => {
                     window.location.reload()
                 })
@@ -159,7 +159,7 @@ export default {
 
         removeClass(user) {
             this.tempID = user._id
-            axios.put(`http://localhost:3000/teacher/remove/class-teacher/${this.tempID}`, this.Teacher)
+            axios.put(`https://htqlthpt.onrender.com/teacher/remove/class-teacher/${this.tempID}`, this.Teacher)
                 .then(() => {
                     window.location.reload()
                 })
@@ -171,7 +171,7 @@ export default {
         addClassCN(idx) {
             this.idcls = idx
             console.log(this.idcls);
-            axios.patch(`http://localhost:3000/teacher/add/class-teacher/${this.idcls}`, this.Teacher)
+            axios.patch(`https://htqlthpt.onrender.com/teacher/add/class-teacher/${this.idcls}`, this.Teacher)
                 .then(() => {
 
                 })
@@ -183,7 +183,7 @@ export default {
         removeTeacher(idr) {
             this.idRMT = idr
             console.log(this.idRMT);
-            axios.patch(`http://localhost:3000/teacher/remove/teacher/${this.idRMT}`, this.Teacher)
+            axios.patch(`https://htqlthpt.onrender.com/teacher/remove/teacher/${this.idRMT}`, this.Teacher)
                 .then(() => {
 
                 })

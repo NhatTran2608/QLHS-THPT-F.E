@@ -40,7 +40,7 @@ export default {
     },
     created() {
         const id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/teacher/show/${id}`)
+        axios.get(`https://htqlthpt.onrender.com/teacher/show/${id}`)
             .then(res => {
                 //localStorage.setItem('classid', JSON.stringify(res.data))
                 console.log(res.data);

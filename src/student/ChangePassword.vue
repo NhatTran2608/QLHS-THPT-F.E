@@ -69,7 +69,7 @@ export default {
 
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
                 this.Student.changepass = this.Student.password
@@ -84,7 +84,7 @@ export default {
 
         ChangePasswoed() {
             if (this.Student.password == this.ChangePassword.pw) {
-                axios.patch(`http://localhost:3000/auth/changePassword/${this.id}`, this.Student)
+                axios.patch(`https://htqlthpt.onrender.com/auth/changePassword/${this.id}`, this.Student)
                     .then(() => {
                         window.location.reload()
                         alert("Success!!!")

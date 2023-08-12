@@ -61,13 +61,13 @@ export default {
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
         // console.log(id)
-        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
             })
             .catch(err => console.log(err))
         this.idclass = JSON.parse(localStorage.getItem('user')).myclassID
-        axios.get(`http://localhost:3000/class/info/${this.idclass}`)
+        axios.get(`https://htqlthpt.onrender.com/class/info/${this.idclass}`)
             .then(res => {
                 this.Class = res.data
             })

@@ -92,7 +92,7 @@ export default {
         }
     },
     created() {
-        axios.get(`http://localhost:3000/class/info/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/class/info/${this.id}`)
             .then(res => {
                 this.Class = res.data
             })
@@ -110,7 +110,7 @@ export default {
             this.cpid = user._id
         },
         deletedStudent() {
-            axios.delete(`http://localhost:3000/student/bin/deleted/${this.cpid}`)
+            axios.delete(`https://htqlthpt.onrender.com/student/bin/deleted/${this.cpid}`)
                 .then(() => {
                     window.location.reload();
                 })

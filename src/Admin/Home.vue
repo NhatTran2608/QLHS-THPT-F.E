@@ -62,7 +62,7 @@ export default {
     },
 
     created() {
-        axios.get(`http://localhost:3000/student/show-all`)
+        axios.get(`https://htqlthpt.onrender.com/student/show-all`)
             .then(res => {
                 this.Student = res.data
 
@@ -71,7 +71,7 @@ export default {
                 console.log(err);
             })
 
-        axios.get(`http://localhost:3000/class/show`)
+        axios.get(`https://htqlthpt.onrender.com/class/show`)
             .then(res => {
                 this.Class = res.data
             })
@@ -79,7 +79,7 @@ export default {
                 console.log(err);
             })
 
-        axios.get(`http://localhost:3000/teacher/all`)
+        axios.get(`https://htqlthpt.onrender.com/teacher/all`)
             .then(res => {
                 this.Teacher = res.data
             })

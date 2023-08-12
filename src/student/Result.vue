@@ -164,7 +164,7 @@ export default {
         this.phone = JSON.parse(localStorage.getItem('user')).phone
         this.email = JSON.parse(localStorage.getItem('user')).email
         this.idclass = JSON.parse(localStorage.getItem('user')).myclassID
-        axios.get(`http://localhost:3000/class/info/${this.idclass}`)
+        axios.get(`https://htqlthpt.onrender.com/class/info/${this.idclass}`)
             .then(res => {
                 this.Class = res.data
             })
@@ -173,11 +173,11 @@ export default {
             })
 
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
                 for (let index = 0; index < this.Student.scoresID.length; index++) {
-                    axios.get(`http://localhost:3000/scores/showOne/${this.Student.scoresID[index]._id}`)
+                    axios.get(`https://htqlthpt.onrender.com/scores/showOne/${this.Student.scoresID[index]._id}`)
                         .then(res => {
                             this.Scores.push(res.data);
                             this.ScoresSum.push(res.data.TBHKI)

@@ -62,10 +62,10 @@ export default {
     },
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`http://localhost:3000/teacher/show/${this.id}`)
+        axios.get(`https://htqlthpt.onrender.com/teacher/show/${this.id}`)
             .then(res => {
                 this.Teacher = res.data
-                axios.get(`http://localhost:3000/class/info/${this.Teacher.form_teacherID._id}`)
+                axios.get(`https://htqlthpt.onrender.com/class/info/${this.Teacher.form_teacherID._id}`)
                     .then(res => {
                         this.CN = res.data
                     })

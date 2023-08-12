@@ -66,7 +66,7 @@ export default {
         localStorage.removeItem('tb')
         localStorage.removeItem('dtb')
         // console.log(id)
-        axios.get(`http://localhost:3000/teacher/show/${id}`)
+        axios.get(`https://htqlthpt.onrender.com/teacher/show/${id}`)
             .then(res => {
                 this.Teacher = res.data
             })
