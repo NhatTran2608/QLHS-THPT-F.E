@@ -17,7 +17,7 @@
                     <ul class="list-group list-form">
                         <li class="list-group-item active text-center">Thông tin cá nhân</li>
                         <li class="list-group-item">Họ & tên: <b class="name-Teacher1">{{ Teacher.fullname }}</b> </li>
-                        <li class="list-group-item">MSHS: {{ Teacher.username }} </li>
+                        <li class="list-group-item">MSGV: {{ Teacher.username }} </li>
                         <li class="list-group-item">Giới tính: {{ Teacher.sex }}</li>
                         <li class="list-group-item">Ngày tháng năm sinh: {{ formatDate(Teacher.birth) }}</li>
                         <li class="list-group-item">SĐT: {{ Teacher.phone }}</li>

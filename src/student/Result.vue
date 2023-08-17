@@ -38,7 +38,6 @@
                                     <td>{{ item.diemhk1ck }}</td>
                                     <td><b>{{ item.TBHKI }}</b></td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -49,21 +48,25 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="title-scores">Điểm trung bình học kì I:</th>
-                                    <th scope="col" class="title-scores TBM">{{ parseFloat(SummaryFunction(this.ScoresSum)).toFixed(2) }}</th>
+                                    <th scope="col" class="title-scores TBM">
+                                        {{ this.TBMHKI }}
+                                        <!-- {{
+                                        parseFloat(SummaryFunction(this.ScoresSum)).toFixed(2) }} -->
+                                        </th>
                                 </tr>
                                 <tr>
-                                        <th scope="col"  class="title-scores">
-                                            Học lực
-                                        </th>
-                                        <th scope="col"  class="title-scores TBM"> 
-                                            {{ Rank(SummaryFunction(this.ScoresSum) ) }}
-                                        </th>
-                                    </tr>
+                                    <th scope="col" class="title-scores">
+                                        Học lực
+                                    </th>
+                                    <th scope="col" class="title-scores TBM">
+                                        {{ this.rankStudentHKI }}
+                                        <!-- {{ Rank(SummaryFunction(this.ScoresSum)) }} -->
+                                    </th>
+                                </tr>
                             </thead>
 
                         </table>
                     </div>
-
                 </div>
                 <div class="ml-3">
                     <div>
@@ -101,15 +104,19 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" class="title-scores">Điểm trung bình học kì II:</th>
-                                        <th scope="col" class="title-scores TBM">{{ parseFloat(SummaryFunction(this.ScoresSumHKII)).toFixed(2) }}
+                                        <th scope="col" class="title-scores TBM">
+                                           {{(this.TBHKII).toFixed(2)}}
+                                            <!-- {{
+                                            parseFloat(SummaryFunction(this.ScoresSumHKII)).toFixed(2) }} -->
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th scope="col"  class="title-scores">
+                                        <th scope="col" class="title-scores">
                                             Học lực
                                         </th>
-                                        <th scope="col"  class="title-scores TBM"> 
-                                            {{ Rank(SummaryFunction(this.ScoresSumHKII)) }}
+                                        <th scope="col" class="title-scores TBM">
+                                           {{ this.rankStudentHKII }}
+                                            <!-- {{ Rank(SummaryFunction(this.ScoresSumHKII)) }} -->
                                         </th>
                                     </tr>
                                 </thead>
@@ -122,14 +129,19 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" class="title-scores">Điểm trung bình cả năm:</th>
-                                            <th scope="col" class="title-scores TBM">{{
-                                               parseFloat(sumAB(SummaryFunction(this.ScoresSum), SummaryFunction(this.ScoresSumHKII))).toFixed(2)
-                                            }}
+                                            <th scope="col" class="title-scores TBM">
+                                                {{ (this.TBCN).toFixed(2) }}
+                                        
                                             </th>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="title-scores">Học lực</th>
-                                            <th scope="col" class="title-scores TBM">{{ Rank(sumAB(SummaryFunction(this.ScoresSum), SummaryFunction(this.ScoresSumHKII))) }}</th>
+                                            <th scope="col" class="title-scores TBM">
+                                                {{ this.rankStudentCN }}
+                                                <!-- {{
+                                                Rank(sumAB(SummaryFunction(this.ScoresSum),
+                                                     SummaryFunction(this.ScoresSumHKII))) }} -->
+                                            </th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -154,49 +166,51 @@ export default {
             sum: 0,
             ScoresSum: [],
             ScoresSumHKII: [],
-            rank:''
+            rank: '', 
+            TBMHKI:0, 
+            TBHKII:0,
+            TBCN:0,
+            rankStudentHKI:'',
+            rankStudentHKII:'', 
+            rankStudentCN:'',
         }
     },
-    created() {
+    async created() {
         this.username = JSON.parse(localStorage.getItem('user')).username
         this.fullname = JSON.parse(localStorage.getItem('user')).fullname
         this.namsinh = JSON.parse(localStorage.getItem('user')).namsinh
         this.phone = JSON.parse(localStorage.getItem('user')).phone
         this.email = JSON.parse(localStorage.getItem('user')).email
         this.idclass = JSON.parse(localStorage.getItem('user')).myclassID
-        axios.get(`https://htqlthpt.onrender.com/class/info/${this.idclass}`)
-            .then(res => {
-                this.Class = res.data
-            })
-            .catch(err => {
-                console.log(err);
-            })
+
+        let res = await axios.get(`https://htqlthpt.onrender.com/class/info/${this.idclass}`)
+        this.Class = res.data
 
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
-            .then(res => {
-                this.Student = res.data
-                for (let index = 0; index < this.Student.scoresID.length; index++) {
-                    axios.get(`https://htqlthpt.onrender.com/scores/showOne/${this.Student.scoresID[index]._id}`)
-                        .then(res => {
-                            this.Scores.push(res.data);
-                            this.ScoresSum.push(res.data.TBHKI)
-                            this.ScoresSumHKII.push(res.data.TBHKII)
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
-                }
-            })
-            .catch(err => console.log(err))
+        res = await axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
+        this.Student = res.data
+        for (let index = 0; index < this.Student.scoresID.length; index++) {
+            let res = await axios.get(`https://htqlthpt.onrender.com/scores/showOne/${this.Student.scoresID[index]._id}`)
+            this.Scores.push(res.data);
+            this.ScoresSum.push(res.data.TBHKI)
+            this.ScoresSumHKII.push(res.data.TBHKII)
+        }
+      
+            this.TBMHKI = this.FTBM(this.ScoresSum)
+            this.TBHKII = this.FTBM(this.ScoresSumHKII)
+            this.TBCN = this.sumAB(parseFloat(this.FTBM(this.ScoresSum)), parseFloat(this.FTBM(this.ScoresSumHKII)))
+            this.rankStudentHKI = this.Rank(this.FTBM(this.ScoresSum))
+            this.rankStudentHKII = this.Rank(this.FTBM(this.ScoresSumHKII))
+            this.rankStudentCN = this.Rank(this.TBCN)
     },
 
     methods: {
+
         formatDate(date) {
             return moment(date).format('DD-MM-YYYY');
         },
 
-        SummaryFunction(Scores) {
+        FTBM(Scores) {
             this.sum = 0;
             let temp = 0;
             for (let i = 0; i < Scores.length; i++) {
@@ -208,27 +222,27 @@ export default {
         },
 
         sumAB(a, b) {
-            return ((a + b*2) / 3)
+            return ((a + b * 2) / 3)
         },
-        
-        Rank(DTBHKI){
-            if(DTBHKI >= 8.0){
-               return this.rank = 'Giỏi'
+
+        Rank(DTBHKI) {
+            if (DTBHKI >= 8.0) {
+                return 'Giỏi'
             }
-            else if (DTBHKI >=6.5 ){
-               return this.rank = 'Khá'
+            else if (DTBHKI >= 6.5) {
+                return 'Khá'
             }
-            else if(DTBHKI >= 5.0){
-               return this.rank = 'Trung Bình'
+            else if (DTBHKI >= 5.0) {
+                return 'Trung Bình'
             }
-            else if(DTBHKI >= 3.5){
-               return this.rank = 'Yếu'
+            else if (DTBHKI >= 3.5) {
+                return 'Yếu'
             }
-            else if(DTBHKI > 0){
-               return this.rank = 'Kém'
+            else if (DTBHKI > 0) {
+                return 'Kém'
             }
-            else if(DTBHKI == undefined){
-                return this.rank ='Chưa xếp loại'
+            else if (DTBHKI == undefined) {
+                return 'Chưa xếp loại'
             }
         }
 
@@ -256,12 +270,12 @@ export default {
     color: red;
 }
 
-.TTHS{
+.TTHS {
     text-transform: uppercase;
     font-weight: 800;
 }
 
-.nameSubject{
+.nameSubject {
     font-weight: bold;
     text-transform: uppercase;
 }

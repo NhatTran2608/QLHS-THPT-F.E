@@ -18,7 +18,7 @@
                                 width: 3.8em;" :src="this.Teacher.avatar" alt="">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Xem thông tin</a>
+                                <router-link class="dropdown-item"  :to="`/teacher/infor/${this.id}`">Xem thông tin</router-link>
                                 <label class="dropdown-item" style="cursor: pointer;" for="avata">Cập nhật ảnh đại diện</label>
                                 <input type="file" id="avata" style="display: none;" accept="image/jpeg"
                                     @change=uploadImage>

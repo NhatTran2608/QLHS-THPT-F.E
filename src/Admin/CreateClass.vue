@@ -3,7 +3,7 @@
         <div>
             <Menu></Menu>
         </div>
-        <div class="ml-3">
+        <div class="ml-3" style="width: 100%;">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a href="" data-target="#general" data-toggle="tab" class="nav-link active">Lớp 10</a>

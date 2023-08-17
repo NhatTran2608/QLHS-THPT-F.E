@@ -50,7 +50,8 @@
                     </router-link>
                 </div>
                 <div class="link_to">
-                    <router-link :to="`/teacher/edit-Individual/${id}`" class="listSv_js hover_color" :class="'current_menu'">
+                    <router-link :to="`/teacher/edit-Individual/${id}`" class="listSv_js hover_color"
+                        :class="'current_menu'">
                         <i class="fa-solid fa-chevron-right"></i>
                         Cập nhật thông tin
                     </router-link>
@@ -82,7 +83,7 @@
 
                 <div class="drop_down_cvht dropDown" v-if="this.isShowDropDownGVCN">
                     <div class="link_to">
-                        <router-link to="#" class="listSv_js hover_color" :class="'current_menu'"
+                        <router-link to="/teacher/list-student" class="listSv_js hover_color" :class="'current_menu'"
                             @click="clickCurrentMenu('cv2')">
                             <i class="fa-solid fa-chevron-right"></i>
                             Danh sách học sinh
@@ -210,7 +211,7 @@
                     <i class="fa-solid fa-chevron-right"></i>
                     <router-link :class="'current_menu'" :to="`/teacher/changepassword/${id}`">Đổi mật khẩu</router-link>
                 </div>
-                <div class="listSv_js hover_color" v-if="this.role == 'HS' || this.role=='AD'">
+                <div class="listSv_js hover_color" v-if="this.role == 'HS' || this.role == 'AD'">
                     <i class="fa-solid fa-chevron-right"></i>
                     <router-link :class="'current_menu'" :to="`/changepassword/${id}`">Đổi mật khẩu</router-link>
                 </div>

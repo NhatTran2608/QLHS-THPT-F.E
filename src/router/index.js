@@ -24,8 +24,13 @@ import Statistical_Subject from "../teacher/Statistical.vue"
 import ListEditTeacher from '../Admin/ListEditTeacher.vue'
 import InfoTeacher from '../teacher/Info_Teacher.vue'
 import EditTeacherIndividual from '../teacher/EditInfo_Individual.vue'
+import ListStudentCN from '../teacher/ListStudent.vue'
 
 const routes = [
+    {
+        path:'/teacher/list-student',
+        component: ListStudentCN
+    },
     {
         path:'/teacher/edit-Individual/:id', 
         component: EditTeacherIndividual

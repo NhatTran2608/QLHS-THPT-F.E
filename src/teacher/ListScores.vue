@@ -33,45 +33,48 @@
                                     <th>TBCN</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="(item, index) in Class.students" :key="index">
+                            <tbody v-for="(item, index) in Class.students" :key="item._id">
                                 <tr>
                                     <td>{{ index + 1 }}</td>
                                     <td class="namestudent"><b>{{ item.fullname }}</b></td>
                                     <td>{{ item.username }}</td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk1tl"></td>
+                                            v-model="this.Scores[index].diemhk1tl"></td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk115p"></td>
+                                            v-model="this.Scores[index].diemhk115p"></td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk11t"></td>
+                                            v-model="this.Scores[index].diemhk11t"></td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk1ck"></td>
+                                            v-model="this.Scores[index].diemhk1ck"></td>
                                     <td class="inputscores" style="color: red;">
-
+                                        {{ this.Scores[index].TBHKI }}
+                                        <!-- 
                                         {{ DiemTBHKI(Scores[index].diemhk1tl,
                                             Scores[index].diemhk115p,
-                                            Scores[index].diemhk11t, Scores[index].diemhk1ck) }}
+                                            Scores[index].diemhk11t, Scores[index].diemhk1ck) }} -->
 
                                     </td>
                                     <td>
                                         <div>||</div>
                                     </td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk2tl"></td>
+                                            v-model="this.Scores[index].diemhk2tl"></td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk215p"></td>
+                                            v-model="this.Scores[index].diemhk215p"></td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk21t"></td>
+                                            v-model="this.Scores[index].diemhk21t"></td>
                                     <td><input type="number" min="0" class="inputscores" max="10" step="0.1"
-                                            v-model="Scores[index].diemhk2ck"></td>
+                                            v-model="this.Scores[index].diemhk2ck"></td>
                                     <td class="inputscores" style="color: red;">
-                                        {{
+                                        {{ this.Scores[index].TBHKII }}
+                                        <!-- {{
                                             DiemTBHKII(Scores[index].diemhk2tl, Scores[index].diemhk215p,
                                                 Scores[index].diemhk21t, Scores[index].diemhk2ck)
-                                        }}
+                                        }} -->
                                     </td>
                                     <td class="inputscores" style="color: red;">
-                                        {{ DiemTBCN(this.sumhk1, this.sumhk2) }}
+                                        <!-- {{ DiemTBCN(this.sumhk1, this.sumhk2) }} -->
+                                        {{ this.Scores[index].TBCN }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -79,7 +82,6 @@
                         <!-- <div>
                         Tổng cộng: <b>{{ Class.students.length }}</b> học sinh
                         </div> -->
-
                         <div class="text-buttom"><button class="buttomm">Cập nhật</button></div>
                     </form>
                 </div>
@@ -114,7 +116,6 @@ export default {
             Class: {},
             subject: '',
             Scores: [],
-            temp: [],
             sul: [],
             SumHKI: 0,
             SumHKII: 0,
@@ -147,68 +148,89 @@ export default {
                 ],
             },
             options: {
-                responsive: true, 
-        
+                responsive: true,
+
             },
-
-
         }
     },
-    mounted() {
+    async mounted() {
         this.subject = JSON.parse(localStorage.getItem('user')).subject
+      
+        const subject = JSON.parse(localStorage.getItem('user')).subject
+        const id = JSON.parse(localStorage.getItem('classid'))
+        let scoreFake = []
+        let res = await axios.get(`https://htqlthpt.onrender.com/class/info/${id}`)
+        this.Class = res.data
+        //const listStudents = res.data.students
+        let temp = res.data.students
+        for (let indexz = 0; indexz < temp.length; indexz++) {
+            this.Scores.push({})
+        }
+        for (let indexz = 0; indexz < temp.length; indexz++) {
+            let res = await axios.get(`https://htqlthpt.onrender.com/student/infostudent/${temp[indexz]._id}`)
+            const studentID = res.data._id
+            for (let i = 0; i < temp.length; i++) {
+                scoreFake[indexz] = {
+                    nameSubject: subject,
+                    studentID: studentID,
+                }
+                if (res.data.scoresID.length) {
+                    res.data.scoresID.forEach(score => {
+                        if (score.nameSubject == subject) {
+                            scoreFake[indexz] = {
+                                ...scoreFake[indexz],
+                                diemhk1tl: score.diemhk1tl,
+                                diemhk115p: score.diemhk115p,
+                                diemhk11t: score.diemhk11t,
+                                diemhk1ck: score.diemhk1ck,
+                                diemhk2tl: score.diemhk2tl,
+                                diemhk215p: score.diemhk215p,
+                                diemhk21t: score.diemhk21t,
+                                diemhk2ck: score.diemhk2ck,
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        // this.Scores = scoreFake
+        for (let index = 0; index < scoreFake.length; index++) {
+            let tbhk2 = this.DiemTBHKII(scoreFake[index].diemhk2tl, scoreFake[index].diemhk215p,
+                scoreFake[index].diemhk21t, scoreFake[index].diemhk2ck)
+            let tbhk1 = this.DiemTBHKI(scoreFake[index].diemhk1tl,
+                scoreFake[index].diemhk115p,
+                scoreFake[index].diemhk11t, scoreFake[index].diemhk1ck)
+            let tbcn = this.DiemTBCN(parseFloat(tbhk2), parseFloat(tbhk1))
+            scoreFake[index].TBHKI = parseFloat(tbhk1)
+            scoreFake[index].TBHKII = parseFloat(tbhk2)
+            scoreFake[index].TBCN = tbcn
+            if (scoreFake[index].TBCN >= 7.95) {
+                this.g++
+            }
+            if (scoreFake[index].TBCN >= 6.55 && scoreFake[index].TBCN <= 7.94) {
+                this.k++
+            }
+            if (scoreFake[index].TBCN >= 4.95 && scoreFake[index].TBCN <= 6.54) {
+                this.tb++
+            }
+            if (scoreFake[index].TBCN >= 0.00 && scoreFake[index].TBCN <= 4.94) {
+                this.dtb++
+            }
+        }
+        localStorage.setItem('g', JSON.stringify(this.g))
+        localStorage.setItem('k', JSON.stringify(this.k))
+        localStorage.setItem('tb', JSON.stringify(this.tb))
+        localStorage.setItem('dtb', JSON.stringify(this.dtb))
+        this.Scores = scoreFake
+
     },
+
     async created() {
         this.chartData.datasets[0].data[0] = JSON.parse(localStorage.getItem('g'))
         this.chartData.datasets[0].data[1] = JSON.parse(localStorage.getItem('k'))
         this.chartData.datasets[0].data[2] = JSON.parse(localStorage.getItem('tb'))
         this.chartData.datasets[0].data[3] = JSON.parse(localStorage.getItem('dtb'))
-        const subject = JSON.parse(localStorage.getItem('user')).subject
-        const id = JSON.parse(localStorage.getItem('classid'))
-        axios.get(`https://htqlthpt.onrender.com/class/info/${id}`)
-            .then(res => {
-                this.Class = res.data
-                const listStudents = res.data.students
-                for (let index = 0; index < listStudents.length; index++) {
-                    this.temp.push(res.data.students[index]._id)
-                }
-                for (let indexz = 0; indexz < this.temp.length; indexz++) {
-                    this.Scores.push({})
-                }
-                for (let indexz = 0; indexz < this.temp.length; indexz++) {
-                    axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.temp[indexz]}`)
-                        .then(res => {
-                            const studentID = res.data._id
-                            for (let i = 0; i < this.temp.length; i++) {
-                                this.Scores[indexz] = {
-                                    nameSubject: subject,
-                                    studentID: studentID,
-                                }
 
-                                if (res.data.scoresID.length) {
-                                    res.data.scoresID.forEach(score => {
-                                        if (score.nameSubject == subject) {
-                                            this.Scores[indexz] = {
-                                                ...this.Scores[indexz],
-                                                diemhk1tl: score.diemhk1tl,
-                                                diemhk115p: score.diemhk115p,
-                                                diemhk11t: score.diemhk11t,
-                                                diemhk1ck: score.diemhk1ck,
-                                                diemhk2tl: score.diemhk2tl,
-                                                diemhk215p: score.diemhk215p,
-                                                diemhk21t: score.diemhk21t,
-                                                diemhk2ck: score.diemhk2ck,
-                                            }
-                                        }
-
-                                    });
-                                }
-                            }
-
-                        })
-                        .catch(err => { console.log(err); })
-                }
-            })
-            .catch(err => { console.log(err); })
     },
     methods: {
 
@@ -223,23 +245,7 @@ export default {
                 this.Scores[index].TBHKII = parseFloat(this.SumHKII);
                 this.HK = this.DiemTBCN(parseFloat(this.SumHKI), parseFloat(this.SumHKII))
                 this.Scores[index].TBCN = parseFloat(this.HK)
-                if (this.HK >= 7.95) {
-                    this.g++
-                }
-                if (this.HK >= 6.55 && this.HK <= 7.94) {
-                    this.k++
-                }
-                if (this.HK >= 4.95 && this.HK <= 6.54) {
-                    this.tb++
-                }
-                if (this.HK >= 0.00 && this.HK <= 4.94) {
-                    this.dtb++
-                }
             }
-            localStorage.setItem('g', JSON.stringify(this.g))
-            localStorage.setItem('k', JSON.stringify(this.k))
-            localStorage.setItem('tb', JSON.stringify(this.tb))
-            localStorage.setItem('dtb', JSON.stringify(this.dtb))
             axios.post(`https://htqlthpt.onrender.com/scores/create`, this.Scores)
                 .then(() => {
                     console.log(this.Scores);
@@ -272,7 +278,7 @@ export default {
             else
                 this.sum = (DTBHKI + DTBHKII * 2) / 3
             return this.sum.toFixed(2)
-        }
+        },
     }
 }
 </script>
@@ -322,7 +328,8 @@ export default {
 .namestudent {
     width: 175px;
 }
-.title-bd{
+
+.title-bd {
     text-transform: uppercase;
 }
 </style>

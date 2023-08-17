@@ -9,12 +9,15 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
+    "@progress/kendo-vue-excel-export": "^3.12.0",
     "@webzlodimir/vue-avatar": "^0.0.8",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bootstrap": "^4.6.2",
+    "dispatch": "^1.0.2",
+    "file-saver": "^2.0.5",
     "jquery": "^3.7.0",
     "moment": "^2.29.4",
     "mousetrap": "^1.6.5",
@@ -27,11 +30,13 @@
     "vue-router": "^4.2.2",
     "vuex": "^4.0.2",
     "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
+    "script-loader": "^0.7.2",
     "vite": "^4.1.4"
   }
 }
