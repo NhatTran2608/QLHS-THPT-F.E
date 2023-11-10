@@ -9,9 +9,11 @@
             </div>
             <div class="d-flex flex-row mt-3">
                 <div>
-                    <img v-if="this.Teacher.sex == 'Nam' && this.Teacher.avatar ==undefined" class="img-avatar" src="../img/img_avatar3.png" alt="AVATAR">
-                    <img v-if="this.Teacher.sex == 'Nữ' && this.Teacher.avatar == undefined" class="img-avatar" src="../img/img_avatar2.png" alt="AVATAR">
-                    <img class="img-avatar"  :src="this.Teacher.avatar" alt="">
+                    <img v-if="this.Teacher.sex == 'Nam' && this.Teacher.avatar == undefined" class="img-avatar"
+                        src="../img/img_avatar3.png" alt="AVATAR">
+                    <img v-if="this.Teacher.sex == 'Nữ' && this.Teacher.avatar == undefined" class="img-avatar"
+                        src="../img/img_avatar2.png" alt="AVATAR">
+                    <img class="img-avatar" :src="this.Teacher.avatar" alt="">
                 </div>
                 <div class="ml-3">
                     <ul class="list-group list-form">
@@ -25,7 +27,6 @@
                             Quận/Huyện: {{ Teacher.huyen }} <br>
                             Phường/Xã: {{ Teacher.xa }}
                         </li>
-
                     </ul>
                 </div>
                 <div class="ml-3">
@@ -55,23 +56,27 @@ export default {
     },
     data() {
         return {
-            Teacher: {},
+            Teacher: {
+
+            },
             CN: {},
 
         }
     },
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`https://htqlthpt.onrender.com/teacher/show/${this.id}`)
+        axios.get(`http://localhost:3000/teacher/show/${this.id}`)
             .then(res => {
                 this.Teacher = res.data
-                axios.get(`https://htqlthpt.onrender.com/class/info/${this.Teacher.form_teacherID._id}`)
-                    .then(res => {
-                        this.CN = res.data
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
+                if (this.Teacher.form_teacherID != undefined) {
+                    axios.get(`http://localhost:3000/class/info/${this.Teacher.form_teacherID._id}`)
+                        .then(res => {
+                            this.CN = res.data
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
             })
             .catch(err => {
                 console.log(err, 'err');

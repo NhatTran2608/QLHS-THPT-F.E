@@ -4,6 +4,7 @@
             <Menu></Menu>
         </div>
         <div class="ml-3" style="width: 100%;">
+            <div class="text-title"><h2>Danh sách lớp</h2></div>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a href="" data-target="#general" data-toggle="tab" class="nav-link active">Lớp 10</a>
@@ -148,21 +149,21 @@ export default {
         }
     },
     created() {
-        axios.get(`https://htqlthpt.onrender.com/class/show/class10`)
+        axios.get(`http://localhost:3000/class/show/class10`)
             .then(res => {
                 this.List10 = res.data;
             })
             .catch(err => {
                 console.log(err);
             }),
-            axios.get(`https://htqlthpt.onrender.com/class/show/class11`)
+            axios.get(`http://localhost:3000/class/show/class11`)
                 .then(res => {
                     this.List11 = res.data;
                 })
                 .catch(err => {
                     console.log(err);
                 }),
-            axios.get(`https://htqlthpt.onrender.com/class/show/class12`)
+            axios.get(`http://localhost:3000/class/show/class12`)
                 .then(res => {
                     this.List12 = res.data;
                 })
@@ -172,7 +173,7 @@ export default {
     },
     methods: {
         create_class() {
-            axios.post(`https://htqlthpt.onrender.com/class/add`, this.Class)
+            axios.post(`http://localhost:3000/class/add`, this.Class)
                 .then(res => {
                     this.Class = ''
                     window.location.reload()
@@ -207,6 +208,15 @@ export default {
     display: inline-block;
 }
 
+.text-title h2 {
+    color: #fff;
+    background-color: #042954;
+    padding: 10px 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
 .nameclass {
     color: #fff;
 }
@@ -218,7 +228,7 @@ export default {
 .addclass {
     /* position: absolute; */
     right: 0;
-    top: 30px;
+    top: 50px;
     position: fixed;
     z-index: 1;
 }

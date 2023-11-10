@@ -68,6 +68,12 @@
                         Nhập điểm cho học sinh
                     </router-link>
                 </div>
+                <div class="link_to">
+                    <router-link to="/teacher/timetable" class="addnew_js hover_color" :class="'current_menu'">
+                        <i class="fa-solid fa-chevron-right"></i>
+                        Thời khóa biểu giảng dạy
+                    </router-link>
+                </div>
             </div>
 
             <div @click="checkCN()">
@@ -86,7 +92,7 @@
                         <router-link to="/teacher/list-student" class="listSv_js hover_color" :class="'current_menu'"
                             @click="clickCurrentMenu('cv2')">
                             <i class="fa-solid fa-chevron-right"></i>
-                            Danh sách học sinh
+                            Danh sách lớp
                         </router-link>
                     </div>
                     <div class="link_to">
@@ -96,7 +102,7 @@
                         </router-link>
                     </div>
                     <div class="link_to">
-                        <router-link to="#" class="addnew_js hover_color" :class="'current_menu'">
+                        <router-link to="/teacher/quality_statistics" class="addnew_js hover_color" :class="'current_menu'">
                             <i class="fa-solid fa-chevron-right"></i>
                             Thống kê chất lượng
                         </router-link>
@@ -139,6 +145,13 @@
                 </div>
 
                 <div class="link_to">
+                    <router-link to="/admin/create-timetable" class="listSv_js hover_color" :class="'current_menu'">
+                        <i class="fa-solid fa-chevron-right"></i>
+                        Sắp xếp thời khóa biểu
+                    </router-link>
+                </div>
+
+                <div class="link_to">
                     <router-link to="/admin/list-editInfo" class="listSv_js hover_color" :class="'current_menu'">
                         <i class="fa-solid fa-chevron-right"></i>
                         Danh sách giáo viên
@@ -152,7 +165,6 @@
                     </router-link>
                 </div>
             </div>
-
         </div>
 
         <div v-if="this.role == 'HS'">
@@ -164,7 +176,6 @@
                 </div>
                 <i class="fa-solid fa-angle-down iconRight" v-if="this.isShowText"></i>
             </div>
-
             <div class="drop_down_cvht dropDown" v-if="this.isShowDropDownSV">
                 <div class="link_to hover_color">
                     <router-link :to="`/student/info/${id}`" class="listSv_js hover_color" :class="'current_menu'">
@@ -178,6 +189,7 @@
                         Cập nhật thông tin
                     </router-link>
                 </div>
+
                 <div class="link_to hover_color">
                     <router-link :to="`/student/result/${id}`" class="addnew_js hover_color" :class="'current_menu'">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -185,14 +197,20 @@
                     </router-link>
                 </div>
 
+                <div class="link_to hover_color">
+                    <router-link :to="`/student/goals_learning`" class="addnew_js hover_color" :class="'current_menu'">
+                        <i class="fa-solid fa-chevron-right"></i>
+                        Mục tiêu học tập
+                    </router-link>
+                </div>
             </div>
         </div>
 
-        <router-link to="#" class="borderUnder underline_node hover_color" @click="clickCurrentMenu('thongbao')"
+        <router-link v-if="this.role == 'GV'" to="/teacher/upload-file" class="borderUnder underline_node hover_color"
             :class="this.isShowText == false ? 'justify_content_center' : ''">
             <i class="fa-solid fa-bullhorn"></i>
             <div v-if="this.isShowText" :class="'current_menu'">
-                Thông báo
+                Tài liệu giảng dạy
             </div>
         </router-link>
 
@@ -226,7 +244,6 @@
 </template>
 
 <script>
-
 export default {
     data() {
         return {
@@ -239,6 +256,14 @@ export default {
     },
 
     created() {
+        if (screen.width <= 739) {
+            this.isShowText = false
+            this.isShowDropDownCVHT = false
+            this.isShowDropDownAccount = false
+            this.isShowDropDownSV = false
+            this.isShowDropDownGVCN = false
+            // this.closeClick()
+        }
         this.id = JSON.parse(localStorage.getItem('user'))._id
         this.role = JSON.parse(localStorage.getItem('user')).role
         this.GVCN = JSON.parse(localStorage.getItem('user')).form_teacherID
@@ -333,7 +358,6 @@ export default {
                 !this.handleClickGVCN()
             }
         },
-
     }
 }
 
@@ -341,7 +365,7 @@ export default {
 
 <style lang="scss" scoped>
 .current_menu {
-    color: #fdc500 !important;
+    color: #fff !important;
 }
 
 .nav_back {
@@ -364,13 +388,13 @@ export default {
     }
 
     to {
-        width: 50px;
+        width: 80px;
     }
 }
 
 @keyframes openNav {
     from {
-        width: 50px;
+        width: 80px;
     }
 
     to {
@@ -435,7 +459,7 @@ export default {
         border-bottom: 1px solid #ccc;
         background-color: #042954;
         color: #fff;
-        // font-size: 15px;
+        text-align: start;
 
         .link_to {
             padding: 5px;
@@ -530,13 +554,13 @@ export default {
         }
 
         to {
-            width: 50px;
+            width: 80px;
         }
     }
 
     @keyframes openMenu {
         from {
-            width: 50px;
+            width: 80px;
             opacity: 0;
         }
 
@@ -546,5 +570,61 @@ export default {
         }
     }
 
+}
+
+/*Ipad dọc(768 x 1024)*/
+@media only screen and (min-width: 740px) and (max-width:1023px) {}
+
+/*Iphone(480 x 640)*/
+@media only screen and (max-width: 739px) {
+    #Menu {
+        width: 80px;
+    }
+
+    .nav_back {
+        width: 80px;
+    }
+
+    @keyframes closeMenu {
+        from {
+            width: 150px;
+        }
+
+        to {
+            width: 80px;
+        }
+    }
+
+    @keyframes openMenu {
+        from {
+            width: 80px;
+            opacity: 0;
+        }
+
+        to {
+            width: 150px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes closeNav {
+        from {
+            width: 150px;
+        }
+
+        to {
+            width: 80px;
+        }
+    }
+
+    @keyframes openNav {
+        from {
+            width: 80px;
+        }
+
+        to {
+            width: 150px;
+        }
+    }
 }
 </style>

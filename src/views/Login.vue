@@ -2,7 +2,7 @@
 <template>
     <div>
         <div v-if="this.checkload == true" class="form-loader">
-            <div  class="loader"></div>
+            <div class="loader"></div>
         </div>
         <div>
             <div class="container-fluid p-0">
@@ -31,14 +31,14 @@
                                                         tài khoản của bạn</h5>
 
                                                     <div class="form-outline mb-4">
-                                                        <label class="form-label" for="form2Example17">Tài khoản</label>
-                                                        <input type="text" id="form2Example17"
+                                                        <!-- <label class="form-label" for="form2Example17">Tài khoản</label> -->
+                                                        <input type="text" id="form2Example17" placeholder="Tên đăng nhập"
                                                             class="form-control form-control-lg" v-model="User.username">
                                                     </div>
 
                                                     <div class="form-outline mb-4">
-                                                        <label class="form-label" for="form2Example27">Mật khẩu</label>
-                                                        <input type="password" id="form2Example27"
+                                                        <!-- <label class="form-label" for="form2Example27">Mật khẩu</label> -->
+                                                        <input type="password" id="form2Example27" placeholder="Mật khẩu"
                                                             class="form-control form-control-lg" v-model="User.password">
                                                     </div>
 
@@ -74,9 +74,10 @@ export default {
     },
     methods: {
         async login() {
+
             try {
                 this.checkload = true
-                let res = await axios.post(`https://htqlthpt.onrender.com/auth/login`, this.User)
+                let res = await axios.post(`http://localhost:3000/auth/login`, this.User)
                 localStorage.setItem('user', JSON.stringify(res.data))
                 if (res.data.role === 'AD') {
                     this.$router.replace({ path: '/admin/home' })
@@ -106,6 +107,10 @@ export default {
     z-index: 2;
     left: 0;
     right: 0;
+}
+
+.row {
+    padding: 20px;
 }
 
 .loader {
@@ -191,4 +196,5 @@ export default {
     87% {
         box-shadow: .2em -.2em 0 0 currentcolor;
     }
-}</style>
+}
+</style>

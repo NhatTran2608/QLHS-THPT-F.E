@@ -10,4 +10,3 @@ import router from './router';
 
 createApp(App).component('VueAvatar', VueAvatar).use(router).mount('#app')
 
-

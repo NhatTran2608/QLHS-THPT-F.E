@@ -91,32 +91,6 @@
                         </td>
                     </tr>
 
-                    <!-- <tr>
-                        <td>
-                            <label for="grade">Khối lớp</label>
-                        </td>
-                        <td>
-                            <select name="" id="grade" v-model="this.Student.grade">
-                                <option value="">--Chọn khối lớp--</option>
-                                <option value="10">Khối 10</option>
-                                <option value="11">Khối 11</option>
-                                <option value="12">Khối 12</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr v-if="this.Student.grade!=''">
-                        <td>
-                            <label for="myclass">Lớp</label>
-                        </td>
-                        <td>
-                            <select name="" v-model="Student.myclassID">
-                                <option v-for="(item, index) in SearchStudent()" :value="item._id" :key="index">
-                                Lớp {{ item.nameclass }}
-                                </option>
-                            </select>
-                        </td>
-                    </tr> -->
-
                     <tr>
                         <td>
                             <label for="textFather">Họ và tên cha:</label>
@@ -223,7 +197,7 @@ export default {
     },
 
     created() {
-        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
+        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data;
 
@@ -241,7 +215,7 @@ export default {
             this.Student.huyen = this.huyen.Name
             this.Student.xa = this.xa.Name
             //console.log(this.id);
-            axios.put(`https://htqlthpt.onrender.com/student/edit/${this.id}`, this.Student)
+            axios.put(`http://localhost:3000/student/edit/${this.id}`, this.Student)
                 .then(() => {
                     window.location.reload()
                 },)

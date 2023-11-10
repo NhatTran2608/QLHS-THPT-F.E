@@ -1,36 +1,47 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light header-nav  mb-2 p-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light header-nav  mb-2">
+            <div class="Title-Manager text-center">
+                
+                <h1>
+                    <img  style="border-radius: 100%; width: 80px; display: inline-block;" src="../img/logo.jpg" alt="">
+                    Hệ thống quản lý
+                </h1>
+            </div>
             <!-- <a class="navbar-brand" href="#"><img class="logo" src="../img/logo.jpg" alt=""></a> -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto"> 
+            </button> 
+             class="collapse navbar-collapse" id="navbarSupportedContent"
+            -->
+            <div>
+                <ul class="navbar-nav mr-auto">
                     <div class="form-inline my-2 my-lg-0 ">
                         <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 <vue-avatar class="mr-2" v-if="this.Student.avatar == undefined"
                                     :username="this.nameavatar" />
                                 <img class="mr-2" v-if="this.Student.avatar != undefined" style="border-radius: 50%;  height: 4em;
                                 width: 3.5em;" :src="this.Student.avatar" alt="">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <router-link class="dropdown-item" v-if="this.Student.role=='HS'" :to="`/student/info/${id}`">Xem thông tin</router-link>
-                                <label class="dropdown-item" style="cursor: pointer;" for="avata">Cập nhật ảnh đại diện</label>
+                                <router-link class="dropdown-item" v-if="this.Student.role == 'HS'"
+                                    :to="`/student/info/${id}`">Xem thông tin</router-link>
+                                <label class="dropdown-item" style="cursor: pointer;" for="avata">Cập nhật ảnh đại
+                                    diện</label>
                                 <input type="file" id="avata" style="display: none;" accept="image/jpeg"
                                     @change=uploadImage>
                                 <router-link class="dropdown-item" :to="`/changepassword/${id}`"> Đổi mật khẩu</router-link>
-                                <a class="dropdown-item"  @click="logout()" href="#">Đăng xuất</a>
+                                <a class="dropdown-item" @click="logout()" href="#">Đăng xuất</a>
                             </div>
                         </div>
                         <li>
-                            <span class="form-control mr-sm-2" v-if="this.Student.role=='HS'">
+                            <span class="form-control mr-sm-2" v-if="this.Student.role == 'HS'">
                                 <h6> Hi, <span class="name-student">{{ this.name }}</span></h6>
                             </span>
-                            <span class="form-control mr-sm-2" v-if="this.Student.role=='AD'">
+                            <span class="form-control mr-sm-2" v-if="this.Student.role == 'AD'">
                                 <h6> Admin, <span class="name-student">{{ this.name }}</span></h6>
                             </span>
                         </li>
@@ -47,11 +58,11 @@ export default {
         return {
             name: '',
             nameavatar: '',
-            gt:'',
-            admin:'',
-            id:'', 
-            Student:{
-                avatar:''
+            gt: '',
+            admin: '',
+            id: '',
+            Student: {
+                avatar: ''
             }
         }
     },
@@ -67,7 +78,7 @@ export default {
 
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
+        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
             })
@@ -92,13 +103,13 @@ export default {
             reader.onload = e => {
                 this.Student.avatar = e.target.result;
                 //console.log(this.previewImage);
-                axios.put(`https://htqlthpt.onrender.com/student/edit/${this.id}`, this.Student)
-                .then(() => {
-                    window.location.reload()
-                },)
-                .catch(err => {
-                    console.log(err)
-                });
+                axios.put(`http://localhost:3000/student/edit/${this.id}`, this.Student)
+                    .then(() => {
+                        window.location.reload()
+                    },)
+                    .catch(err => {
+                        console.log(err)
+                    });
             };
         }
 
@@ -117,18 +128,21 @@ export default {
     background: url(../bg-school.jpg);
 }
 
-.logo {
-    width: 120px;
-    border-radius: 100%;
-}
-
 .name-student {
     color: crimson;
 }
 
-
-.dropdown-toggle::after{
+.dropdown-toggle::after {
     content: none;
 }
 
+.Title-Manager {
+    font-style: italic;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 800;
+    font-size: larger;
+    margin: auto;
+    color: black;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white
+}
 </style>

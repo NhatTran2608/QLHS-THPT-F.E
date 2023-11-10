@@ -28,17 +28,18 @@
             <div class="item form-infor">
                 <div>
                     <div class="d-flex flex-row-reverse">
-                        <div class="p-4 item-flex"><router-link class="option-home" :to="`/teacher/statistical/subject`">
-                                <img class="img-home" src="../img/bar-chart.png" alt=""><br>Thống kê </router-link></div>
-                        <div @click="checkCN()" class="p-4 item-flex"><router-link class="option-home"
-                                to="/teacher/assess-student"> <img class="img-home" src="../img/law-book.png"
-                                    alt=""><br>Đánh giá HS</router-link></div>
+                        <div class="p-4 item-flex"><router-link class="option-home" :to="`/teacher/timetable`">
+                                <img class="img-home" src="../img/TKB.png" alt=""><br>Lịch giảng dạy</router-link>
+                        </div>
+                        <div class="p-4 item-flex"><router-link class="option-home" to="/teacher/upload-file"> <img
+                                    class="img-home" src="../img/folders.png" alt=""><br>Tài liệu giảng dạy</router-link>
+                        </div>
                         <div class="p-4 item-flex"><router-link class="option-home" to="/teacher/gradebook"> <img
-                                    class="img-home" src="../img/exam.png" alt=""><br>Sổ điểm</router-link></div>
+                                    class="img-home" src="../img/exam.png" alt=""><br>Sổ điểm</router-link>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -46,7 +47,6 @@
 import axios from 'axios';
 import HeaderTeacher from '../components/HeaderTeacher.vue'
 import Menu from '../components/Menu.vue'
-
 import moment from 'moment';
 export default {
     components: {
@@ -65,8 +65,7 @@ export default {
         localStorage.removeItem('k')
         localStorage.removeItem('tb')
         localStorage.removeItem('dtb')
-        // console.log(id)
-        axios.get(`https://htqlthpt.onrender.com/teacher/show/${id}`)
+        axios.get(`http://localhost:3000/teacher/show/${id}`)
             .then(res => {
                 this.Teacher = res.data
             })
@@ -77,7 +76,6 @@ export default {
         formatDate(date) {
             return moment(date).format('DD-MM-YYYY');
         },
-
 
         checkCN() {
             if (this.GVCN == undefined) {
@@ -94,17 +92,6 @@ export default {
     font-weight: bold;
 
 }
-
-
-
-/* .form-infor {
-
-    position: absolute;
-    left: 1;
-    top: 1;
-    width: 35%;
-    height: 60%;
-} */
 
 .img-home {
     width: 100px;

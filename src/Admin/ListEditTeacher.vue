@@ -50,7 +50,7 @@ export default {
         }
     },
     created() {
-        axios.get(`https://htqlthpt.onrender.com/teacher/all`)
+        axios.get(`http://localhost:3000/teacher/all`)
             .then(res => {
                 this.Teacher = res.data
 

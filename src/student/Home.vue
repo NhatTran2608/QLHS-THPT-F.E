@@ -5,7 +5,6 @@
             <div>
                 <Menu></Menu>
             </div>
-
             <div class="form-infor mt-4 ml-4">
                 <ul class="list-group">
                     <li class="list-group-item active text-center">Thông tin học sinh</li>
@@ -29,10 +28,10 @@
             <div class="item form-infor">
                 <div>
                     <div class="d-flex flex-row-reverse">
-                        <div class="p-4 item-flex"><router-link class="option-home" to="#"> <img class="img-home"
+                        <div class="p-4 item-flex"><router-link class="option-home" to="/class/timetable-class"> <img class="img-home"
                                     src="../img/TKB.png" alt=""><br>Thời khóa biểu</router-link></div>
-                        <div class="p-4 item-flex"><router-link class="option-home" to="#"> <img class="img-home"
-                                    src="../img/law-book.png" alt=""><br>Đánh giá của GV</router-link></div>
+                        <div class="p-4 item-flex"><router-link class="option-home" to="/student/document"> <img class="img-home"
+                                    src="../img/archives.png" alt=""><br>Tài liệu học tập</router-link></div>
                         <div class="p-4 item-flex"><router-link class="option-home" :to="`/student/result/${this.id}`">
                                 <img class="img-home" src="../img/score.png" alt=""><br>Kết quả học tập</router-link>
                         </div>
@@ -49,7 +48,8 @@ import Menu from "../components/Menu.vue"
 import moment from 'moment';
 export default {
     components: {
-        Header, Menu
+        Header,
+         Menu
     },
     data() {
         return {
@@ -61,13 +61,13 @@ export default {
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
         // console.log(id)
-        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.id}`)
+        axios.get(`http://localhost:3000/student/infostudent/${this.id}`)
             .then(res => {
                 this.Student = res.data
             })
             .catch(err => console.log(err))
         this.idclass = JSON.parse(localStorage.getItem('user')).myclassID
-        axios.get(`https://htqlthpt.onrender.com/class/info/${this.idclass}`)
+        axios.get(`http://localhost:3000/class/info/${this.idclass}`)
             .then(res => {
                 this.Class = res.data
             })

@@ -95,7 +95,7 @@ export default {
         }
     },
     created() {
-        axios.get(`https://htqlthpt.onrender.com/bin/student/show`)
+        axios.get(`http://localhost:3000/bin/student/show`)
             .then(res => {
                 this.Student = res.data
             })
@@ -113,7 +113,7 @@ export default {
         },
 
         restore(user) {
-            axios.put(`https://htqlthpt.onrender.com/bin/restore/student/${user._id}`)
+            axios.put(`http://localhost:3000/bin/restore/student/${user._id}`)
                 .then(() => {
                     window.location.reload();
                 })
@@ -122,7 +122,7 @@ export default {
                 })
         },
         deletedStudent() {
-            axios.delete(`https://htqlthpt.onrender.com/bin/delete/student/${this.id}`)
+            axios.delete(`http://localhost:3000/bin/delete/student/${this.id}`)
                 .then(() => {
                     window.location.reload();
                 })
@@ -134,10 +134,10 @@ export default {
 }
 </script>
 <style scoped>
-
-.form-bin{
+.form-bin {
     width: 100%;
 }
+
 .edit-img {
     width: 30px;
 }

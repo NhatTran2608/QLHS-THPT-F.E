@@ -1,6 +1,11 @@
 <template>
     <div>
+        <div>
+            <router-link title="Trở lại" class="btn btn-primary p-2 btn-push arrow" to="/admin/list/teacher"><i
+                    class="fa-solid fa-arrow-left"></i></router-link>
+        </div>
         <div class="container">
+
             <form method="post" @submit.prevent="addClass()">
                 <div class="d-flex flex-row mt-5">
                     <div class="form-info">
@@ -27,7 +32,6 @@
                             </li>
                         </ul>
                     </div>
-
                     <div class="form-edit">
                         <ul class="list-group">
                             <li class="list-group-item active text-title-pcgd">
@@ -37,7 +41,6 @@
                                 <label :for="i._id">Lớp {{ i.nameclass }}</label>
                                 <input class="cbclassid" type="checkbox" :id="i._id" :value="i._id"
                                     v-model="Teacher.classID">
-
                             </li>
                         </ul>
                     </div>
@@ -90,16 +93,15 @@ export default {
     created() {
         this.id = JSON.parse(localStorage.getItem('editclassid'))._id
         this.subject = JSON.parse(localStorage.getItem('editclassid')).subject
-        axios.get(`https://htqlthpt.onrender.com/teacher/show/${this.id}`)
+        axios.get(`http://localhost:3000/teacher/show/${this.id}`)
             .then(res => {
                 this.Teacher = res.data
             })
             .catch(err => {
                 console.log(err, 'err');
             })
-        
 
-        axios.get('https://htqlthpt.onrender.com/class/show')
+        axios.get('http://localhost:3000/class/show')
             .then(res => {
                 this.results = [];
                 for (let index = 0; index < res.data.length; index++) {
@@ -122,7 +124,7 @@ export default {
                 console.log(err, 'err');
             })
 
-        axios.get('https://htqlthpt.onrender.com/class/show')
+        axios.get('http://localhost:3000/class/show')
             .then(res => {
                 for (let index = 0; index < res.data.length; index++) {
                     if (res.data[index].organizer == undefined) {
@@ -130,9 +132,6 @@ export default {
                     }
                     this.ClassCN = this.newArr
                 }
-
-
-
             })
             .catch(err => {
                 console.log(err, 'err');
@@ -148,7 +147,7 @@ export default {
         },
 
         addClass() {
-            axios.patch(`https://htqlthpt.onrender.com/teacher/update/${this.id}`, this.Teacher)
+            axios.patch(`http://localhost:3000/teacher/update/${this.id}`, this.Teacher)
                 .then(() => {
                     window.location.reload()
                 })
@@ -159,7 +158,7 @@ export default {
 
         removeClass(user) {
             this.tempID = user._id
-            axios.put(`https://htqlthpt.onrender.com/teacher/remove/class-teacher/${this.tempID}`, this.Teacher)
+            axios.put(`http://localhost:3000/teacher/remove/class-teacher/${this.tempID}`, this.Teacher)
                 .then(() => {
                     window.location.reload()
                 })
@@ -171,7 +170,7 @@ export default {
         addClassCN(idx) {
             this.idcls = idx
             console.log(this.idcls);
-            axios.patch(`https://htqlthpt.onrender.com/teacher/add/class-teacher/${this.idcls}`, this.Teacher)
+            axios.patch(`http://localhost:3000/teacher/add/class-teacher/${this.idcls}`, this.Teacher)
                 .then(() => {
 
                 })
@@ -183,7 +182,7 @@ export default {
         removeTeacher(idr) {
             this.idRMT = idr
             console.log(this.idRMT);
-            axios.patch(`https://htqlthpt.onrender.com/teacher/remove/teacher/${this.idRMT}`, this.Teacher)
+            axios.patch(`http://localhost:3000/teacher/remove/teacher/${this.idRMT}`, this.Teacher)
                 .then(() => {
 
                 })
@@ -198,6 +197,15 @@ export default {
 }
 </script>
 <style scoped>
+.arrow {
+    width: 50px;
+    padding: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 100%;
+}
+
 .container {
     margin: auto;
 }

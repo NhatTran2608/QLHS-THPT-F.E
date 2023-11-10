@@ -4,8 +4,8 @@
             <Menu></Menu>
         </div>
         <div class="container">
-            <div class="text-center mt-2">
-                <h3>SỔ ĐIỂM</h3>
+            <div class="text-center mt-2 title-subject">
+                <h3>SỔ ĐIỂM MÔN {{ this.subject }}</h3>
             </div>
             <div class="class-form">
                 <div class="class-for" v-for="(item, index) in Teacher.classID" :key="index">
@@ -35,15 +35,16 @@ export default {
         return {
             Teacher: {},
             temp: '',
-            idz: ''
+            idz: '', 
+            subject:''
         }
     },
     created() {
         const id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`https://htqlthpt.onrender.com/teacher/show/${id}`)
+        this.subject = JSON.parse(localStorage.getItem('user')).subject
+        axios.get(`http://localhost:3000/teacher/show/${id}`)
             .then(res => {
                 //localStorage.setItem('classid', JSON.stringify(res.data))
-                console.log(res.data);
                 this.Teacher = res.data
             })
             .catch(err => console.log(err))
@@ -66,6 +67,9 @@ export default {
     margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
+}
+.title-subject{
+    text-transform: uppercase;
 }
 
 .class-for:hover {

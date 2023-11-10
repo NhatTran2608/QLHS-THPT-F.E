@@ -186,7 +186,7 @@ export default {
     },
 
     created() {
-        axios.get(`https://htqlthpt.onrender.com/teacher/show/${this.id}`)
+        axios.get(`http://localhost:3000/teacher/show/${this.id}`)
             .then(res => {
                 this.Teacher = res.data;
 
@@ -204,7 +204,7 @@ export default {
             this.Teacher.huyen = this.huyen.Name
             this.Teacher.xa = this.xa.Name
             //console.log(this.id);
-            axios.put(`https://htqlthpt.onrender.com/teacher/updateInfo/${this.id}`, this.Teacher)
+            axios.put(`http://localhost:3000/teacher/updateInfo/${this.id}`, this.Teacher)
                 .then(() => {
                     window.location.reload()
                 },)

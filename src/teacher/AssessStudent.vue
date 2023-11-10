@@ -4,7 +4,10 @@
             <Menu></Menu>
         </div>
         <div v-if="Teacher.form_teacherID != undefined" class="form-DGHK container">
-            <form method="PUT" @submit.prevent="">
+            <div class="text-title">
+                <h2>ĐÁNH GIÁ HẠNH KIỂM HỌC SINH</h2>
+            </div>
+            <form method="PUT">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -20,8 +23,8 @@
                             <td>{{ index + 1 }}</td>
                             <td><b>{{ item.fullname }}</b></td>
                             <td>{{ item.username }}</td>
-                            <td><textarea name="" title="Xem nội dung đánh giá" id="" cols="20"
-                                    placeholder="Chưa có đánh giá" rows="2" style="color: red; cursor: no-drop;"
+                            <td><textarea name="" title="Nội dung đánh giá" id="" cols="20" placeholder="Chưa có đánh giá"
+                                    rows="2" style="color: red; cursor: no-drop;"
                                     disabled>{{ item.resultID.conduct }}</textarea></td>
                             <td>
                                 <button type="button" @click="copyID(item)" title="Nhập vào đánh giá"
@@ -42,10 +45,19 @@
                                         <div class="modal-body">
                                             <div class="d-flex flex-row">
                                                 <div class="mr-3">Nhập nội dung đánh giá: </div>
-                                                <textarea style="color: red;" name="" id="" cols="30" rows="3"
+                                                <textarea placeholder="Nội dung..." style="color: red;" name="" id="" cols="30" rows="3"
                                                     v-model="this.resultID.conduct"></textarea>
                                             </div>
-
+                                            <div class="danhgia mt-4 mr-3" >
+                                                Chọn loại đánh giá:
+                                            </div>
+                                            <select class="danhgia mt-2" v-model="this.resultID.rank_conduct" required="true">
+                                                <option selected value="">--Chọn đánh giá--</option>
+                                                <option value="Tốt">Loại Tốt</option>
+                                                <option value="Khá">Loại Khá</option>
+                                                <option value="Trung Bình">Loại Trung Bình</option>
+                                                <option value="Yếu">Loại Yếu</option>
+                                            </select>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -67,7 +79,7 @@
 import axios from 'axios';
 import Menu from '../components/Menu.vue'
 export default {
-    components:{
+    components: {
         Menu
     },
     data() {
@@ -76,19 +88,21 @@ export default {
             Temp: [],
             Student: [],
             ID: '',
-            resultID: {},
+            resultID: {
+                rank_conduct:''
+            },
         }
     },
 
     created() {
         this.id = JSON.parse(localStorage.getItem('user'))._id
-        axios.get(`https://htqlthpt.onrender.com/teacher/class-student/${this.id}`)
+        axios.get(`http://localhost:3000/teacher/class-student/${this.id}`)
             .then(res => {
                 this.Teacher = res.data
                 this.Temp = this.Teacher.form_teacherID.students
                 if (this.Teacher.form_teacherID != undefined) {
                     for (let index = 0; index < this.Temp.length; index++) {
-                        axios.get(`https://htqlthpt.onrender.com/student/infostudent/${this.Temp[index]}`)
+                        axios.get(`http://localhost:3000/student/infostudent/${this.Temp[index]}`)
                             .then(res => {
                                 this.Student.push(res.data)
                             })
@@ -106,8 +120,10 @@ export default {
 
     methods: {
         copyID(userID) {
+            
             this.ID = userID.resultID._id
-            axios.get(`https://htqlthpt.onrender.com/scores/show/summary/${this.ID}`)
+            console.log(this.ID);
+            axios.get(`http://localhost:3000/scores/show/summary/${this.ID}`)
                 .then(res => {
                     this.resultID = res.data
                 })
@@ -116,8 +132,7 @@ export default {
                 })
         },
         submitID() {
-
-            axios.put(`https://htqlthpt.onrender.com/scores/update/summary/${this.ID}`, this.resultID)
+            axios.put(`http://localhost:3000/scores/update/summary/${this.ID}`, this.resultID)
                 .then(() => {
                     window.location.reload()
                 })
@@ -130,9 +145,20 @@ export default {
 }
 </script>
 <style scoped>
-
-.form-DGHK{
+.form-DGHK {
     width: 100%;
 }
 
+.text-title h2 {
+    color: #fff;
+    background-color: #042954;
+    padding: 10px 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.danhgia{
+    display: inline-block;
+}
 </style>

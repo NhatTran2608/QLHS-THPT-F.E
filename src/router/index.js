@@ -25,26 +25,63 @@ import ListEditTeacher from '../Admin/ListEditTeacher.vue'
 import InfoTeacher from '../teacher/Info_Teacher.vue'
 import EditTeacherIndividual from '../teacher/EditInfo_Individual.vue'
 import ListStudentCN from '../teacher/ListStudent.vue'
+import CreateTimtable from '../Admin/CreateTimetable.vue'
+import CreateTimetable_class from "../Admin/TimeTableClass.vue"
+import TimeTableStudent from "../student/TimeTable.vue"
+import TimeTableTeacher from "../teacher/TimeTable_Teacher.vue"
+import quatily_Statistics from "../teacher/Quality_Statistics.vue"
+import UploadFileTeacher from "../teacher/UploadFile.vue"
+import GoalsLearning from "../student/Goals_learning.vue"
+import Document from "../student/Document.vue"
 
 const routes = [
     {
-        path:'/teacher/list-student',
+        path: '/student/document',
+        component: Document
+    },
+    {
+        path: '/student/goals_learning',
+        component: GoalsLearning
+    },
+    {
+        path: '/teacher/upload-file',
+        component: UploadFileTeacher
+
+    },
+    {
+        path: '/teacher/timetable',
+        component: TimeTableTeacher
+    },
+    {
+        path: '/class/timetable-class',
+        component: TimeTableStudent
+    },
+    {
+        path: '/admin/create-timetable-class/:id',
+        component: CreateTimetable_class
+    },
+    {
+        path: '/admin/create-timetable',
+        component: CreateTimtable
+    },
+    {
+        path: '/teacher/list-student',
         component: ListStudentCN
     },
     {
-        path:'/teacher/edit-Individual/:id', 
+        path: '/teacher/edit-Individual/:id',
         component: EditTeacherIndividual
     },
     {
-        path:'/teacher/infor/:id',
+        path: '/teacher/infor/:id',
         component: InfoTeacher
     },
     {
-        path:'/admin/list-editInfo', 
+        path: '/admin/list-editInfo',
         component: ListEditTeacher
     },
     {
-        path:'/teacher/list/scores/:id',
+        path: '/teacher/list/scores/:id',
         component: ListScores,
     },
     {
@@ -60,7 +97,7 @@ const routes = [
         component: EditTeacher,
     },
     {
-        path:'/register/user',
+        path: '/register/user',
         component: RegisterUser
     },
     {
@@ -68,11 +105,11 @@ const routes = [
         component: Register,
     },
     {
-        path:'/login',
+        path: '/login',
         component: Login,
     },
     {
-        path:'/class/list/:id',
+        path: '/class/list/:id',
         component: ListClass,
     },
     {
@@ -83,38 +120,38 @@ const routes = [
         path: '/teacher/home',
         component: HomeTeacher,
     },
-    
+
     {
-        path:'/home/student',
+        path: '/home/student',
         component: Home_Student,
     },
     {
-        path:'/admin/bin',
+        path: '/admin/bin',
         component: Bin,
     },
     {
-        path:'/admin/edit/student/:id',
+        path: '/admin/edit/student/:id',
         component: EditStudent,
     },
     {
-        path:'/admin/home',
+        path: '/admin/home',
         component: Home_Admin,
     },
     {
-        path:'/teacher/gradebook',
+        path: '/teacher/gradebook',
         component: Gradebook,
 
     },
     {
-        path:'/admin/edit/class_teacher/:id',
+        path: '/admin/edit/class_teacher/:id',
         component: AddClass_Teacher,
     },
     {
-        path:'/teacher/assess-student',
+        path: '/teacher/assess-student',
         component: Assess
     },
     {
-        path:'/student/result/:id',
+        path: '/student/result/:id',
         component: Result
     },
     {
@@ -122,7 +159,7 @@ const routes = [
         component: ChangePassword,
     },
     {
-        path:'/teacher/changepassword/:id',
+        path: '/teacher/changepassword/:id',
         component: ChangePasswordTC,
     },
     {
@@ -130,16 +167,22 @@ const routes = [
         component: Info_Student,
     },
     {
-        path:'/teacher/statistical/subject',
+        path: '/teacher/statistical/subject',
         component: Statistical_Subject,
+    },
+    {
+        path: '/teacher/quality_statistics',
+        component: quatily_Statistics
+
     },
     {
         path: '/:pathMatch(.*)*',
         //path:'/',
         redirect: '/login'
     },
-   
-    
+
+
+
 ];
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
