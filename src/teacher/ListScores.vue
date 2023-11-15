@@ -6,13 +6,16 @@
             </div>
             <div>
                 <div class=" mt-4">
+                    <div @click="exportToExcel()" class="down_excel">
+                        <i class="fa-regular fa-file-excel"></i> Tải xuống
+                    </div>
                     <form method="post" @submit.prevent="submitScores()">
-                        <table class="table table-striped">
+                        <table ref="excelTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <td class="text-center title-hk" colspan="3">#</td>
                                     <td class="text-center title-hk" colspan="5">HKI</td>
-                                    <td class="text-center title-hk" colspan="7">HKII</td>
+                                    <td class="text-center title-hk" colspan="9">HKII</td>
                                 </tr>
                                 <tr>
                                     <th>TT</th>
@@ -51,11 +54,6 @@
                                             v-model="this.Scores[index].diemhk1ck"></td>
                                     <td class="inputscores" style="color: red;">
                                         {{ this.Scores[index].TBHKI }}
-                                        <!-- 
-                                        {{ DiemTBHKI(Scores[index].diemhk1tl,
-                                            Scores[index].diemhk115p,
-                                            Scores[index].diemhk11t, Scores[index].diemhk1ck) }} -->
-
                                     </td>
                                     <td>
                                         <div>||</div>
@@ -72,13 +70,8 @@
                                             v-model="this.Scores[index].diemhk2ck"></td>
                                     <td class="inputscores" style="color: red;">
                                         {{ this.Scores[index].TBHKII }}
-                                        <!-- {{
-                                            DiemTBHKII(Scores[index].diemhk2tl, Scores[index].diemhk215p,
-                                                Scores[index].diemhk21t, Scores[index].diemhk2ck)
-                                        }} -->
                                     </td>
                                     <td class="inputscores" style="color: red;">
-                                        <!-- {{ DiemTBCN(this.sumhk1, this.sumhk2) }} -->
                                         {{ this.Scores[index].TBCN }}
                                     </td>
                                 </tr>
@@ -105,6 +98,8 @@
 <script>
 import axios from 'axios';
 import { Bar, PolarArea } from 'vue-chartjs'
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, RadialLinearScale, ArcElement } from 'chart.js'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, RadialLinearScale, ArcElement)
@@ -156,6 +151,7 @@ export default {
                 responsive: true,
 
             },
+            inputValues: [],
         }
     },
     async mounted() {
@@ -221,7 +217,54 @@ export default {
         this.Scores = scoreFake
 
     },
+
     methods: {
+        exportToExcel() {
+            // Sao chép dữ liệu từ this.Scores để tránh sửa đổi dữ liệu gốc
+            const scoresCopy = JSON.parse(JSON.stringify(this.Scores));
+
+            // Tạo mảng dữ liệu cho worksheet, bao gồm cả tên học sinh và mã số
+            const excelData = scoresCopy.map((score, index) => {
+                // Tìm học sinh tương ứng trong mảng Class.students
+                const student = this.Class.students.find(student => student._id === score.studentID);
+
+                return {
+                    'TT': index + 1,
+                    'Họ và Tên': student ? student.fullname : '', // Lấy tên học sinh từ mảng Class.students
+                    'Mã số': student ? student.username : '', // Lấy mã số từ mảng Class.students
+                    'Điểm miệng': score.diemhk1tl,
+                    'Điểm 15 phút đợt 1': score.diemhk115p,
+                    'Điểm 15 phút lần 2': score.diemhk115pl2,
+                    'Điểm giữa kì': score.diemhk11t,
+                    'Điểm cuối kì': score.diemhk1ck,
+                    'TBHKI': score.TBHKI,
+                    // Thêm các cột khác tùy theo cần thiết
+                };
+            });
+
+            // Tạo đối tượng worksheet từ mảng dữ liệu excelData
+            const ws = XLSX.utils.json_to_sheet(excelData);
+
+            // Tạo đối tượng workbook và thêm worksheet vào workbook
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'ScoresSheet');
+
+            // Chuyển đổi workbook thành mảng dữ liệu Excel
+            const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+            // Tạo đối tượng Blob từ mảng dữ liệu Excel
+            const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+            // Tạo tên file Excel (có thể thay đổi tùy ý)
+            const fileName = 'bang_diem.xlsx';
+
+            // Lưu file Excel
+            saveAs(data, fileName);
+        },
+
+
+
+
 
         async chart() {
             this.subject = JSON.parse(localStorage.getItem('user')).subject
@@ -292,9 +335,6 @@ export default {
 
             this.Scores = scoreFake
             console.log(this.g);
-
-
-
             this.chartData = {
                 labels: [
                     'Giỏi (8 - 10)',
@@ -364,10 +404,23 @@ export default {
                 this.sum = (DTBHKI + DTBHKII * 2) / 3
             return this.sum.toFixed(2)
         },
-    }
+    },
 }
 </script>
 <style scoped>
+.down_excel {
+    padding: 5px;
+    cursor: pointer;
+    background-color: rgb(31, 187, 201);
+    display: inline-block;
+    margin-left: 2px;
+    border-radius: 4px;
+}
+
+.down_excel i {
+    color: rgb(167, 255, 130);
+}
+
 .inputscores {
     text-align: center;
     color: rgb(0, 0, 0);

@@ -51,7 +51,7 @@
                                             <div class="danhgia mt-4 mr-3" >
                                                 Chọn loại đánh giá:
                                             </div>
-                                            <select class="danhgia mt-2" v-model="this.resultID.rank_conduct" required="true">
+                                            <select class="danhgia mt-2 danhgia_select" v-model="this.resultID.rank_conduct" required="true">
                                                 <option selected value="">--Chọn đánh giá--</option>
                                                 <option value="Tốt">Loại Tốt</option>
                                                 <option value="Khá">Loại Khá</option>
@@ -156,6 +156,10 @@ export default {
     text-align: center;
     margin-bottom: 10px;
     text-transform: uppercase;
+}
+
+.danhgia_select{
+    margin-left: 39px;
 }
 
 .danhgia{

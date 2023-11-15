@@ -54,19 +54,25 @@
                                         <!-- <i title="Download Excel" class="fas fa-file-excel down__excel"></i> -->
                                         <tr>
                                             <th scope="col">TT</th>
-                                            <th scope="col">MSHS</th>
-                                            <th class="text-center" scope="col">Họ và tên</th>
+                                            <th scope="col" @click="sortData('username')">MSHS <i
+                                                    class="fa-solid fa-caret-down"></i></th>
+                                            <th class="text-center" @click="sortData('fullname')" scope="col">Họ và tên <i
+                                                    class="fa-solid fa-caret-down"></i></th>
                                             <th class="text-center" scope="col">Ngày tháng năm sinh</th>
+                                            <th scope="col">Điểm trung bình</th>
                                             <th scope="col">Học lực</th>
                                             <th scope="col">Hạnh kiểm</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(item, index) in this.StudentTK" :key="index">
+                                        <tr v-for="(item, index) in sortedData" :key="index">
                                             <td>{{ index + 1 }}</td>
                                             <td>{{ item.username }}</td>
                                             <td>{{ item.fullname }}</td>
                                             <td class="text-center">{{ formatDate(item.namsinh) }}</td>
+                                            <td class="text-center">
+                                                {{ (item.resultID.scoreResult).toFixed(2) }}
+                                            </td>
                                             <td v-if="item.resultID.Academic_ability != undefined">{{
                                                 item.resultID.Academic_ability }}</td>
                                             <td v-if="item.resultID.Academic_ability == undefined">
@@ -188,6 +194,8 @@ export default {
                 responsive: true,
 
             },
+            sortBy: '',
+            sortOrder: 'asc',
         }
     },
 
@@ -305,7 +313,7 @@ export default {
 
             // Tạo một mảng dữ liệu từ bảng
             const data = [
-                ["TT", "Mã Số", "Họ và tên", "Ngày sinh", "Học lực"]
+                ["TT", "Mã Số", "Họ và tên", "Ngày sinh", "Học lực", "Hạnh kiểm"]
             ];
             const rows = table.querySelectorAll('tr');
             rows.forEach((row, rowIndex) => {
@@ -347,7 +355,7 @@ export default {
             const dataURL = chart.toBase64Image();
             const a = document.createElement('a');
             a.href = dataURL;
-            a.download = 'Thong-Ke-Hoc-Luc.png';
+            a.download = `Thong-Ke-Hoc-Luc.png-${this.Teacher.form_teacherID.nameclass}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -369,11 +377,21 @@ export default {
             const dataURL = chart.toBase64Image();
             const a = document.createElement('a');
             a.href = dataURL;
-            a.download = 'Thong-Ke-Hanh-Kiem.png';
+            a.download = `Thong-Ke-Hanh-Kiem-Lop-${this.Teacher.form_teacherID.nameclass}.png`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        }
+        },
+        sortData(column) {
+            if (this.sortBy === column) {
+                // Đảo chiều sắp xếp nếu cột đã được chọn
+                this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                // Sắp xếp theo cột mới
+                this.sortBy = column;
+                this.sortOrder = 'asc';
+            }
+        },
     },
     computed: {
         myStyles() {
@@ -382,7 +400,15 @@ export default {
                 // position: 'relative',
                 width: `${100}%`
             }
-        }
+        },
+
+        sortedData() {
+            return this.StudentTK.slice().sort((a, b) => {
+                const order = this.sortOrder === 'asc' ? 1 : -1;
+                return a[this.sortBy] > b[this.sortBy] ? order : -order;
+            });
+
+        },
     },
 }
 </script>

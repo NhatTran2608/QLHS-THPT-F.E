@@ -24,8 +24,8 @@
                             <th scope="row">{{ tiet }}</th>
                             <td v-for="(info, thu) in listDays" :key="thu">
                                 <span v-if="info.fullname && info.subject">
-                                   <b>{{ info.subject }}</b> - {{ info.fullname.split(' ').slice(-1).join(' ') }}
-                                    
+                                    <b>{{ info.subject }}</b> - {{ info.fullname.split(' ').slice(-1).join(' ') }}
+
                                 </span>
                                 <input @click="() => { copyID(info._id); handleClick(thu, tiet); }" type="radio"
                                     class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
@@ -49,8 +49,10 @@
                                             </div>
                                             <ul>
                                                 <div v-for="(item, index) in showTeacher" :key="index">
-                                                    <li class="element_add"><span class="element-name">Họ và tên: {{item.fullname}}</span> <br>
-                                                     <span class="element-subject">Môn GD: <b>{{item.subject }}</b></span>
+                                                    <li class="element_add"><span class="element-name">Họ và tên:
+                                                            {{ item.fullname }}</span> <br>
+                                                        <span class="element-subject">Môn GD: <b>{{ item.subject
+                                                        }}</b></span>
                                                         <button class="btn btn-primary btn-add"
                                                             @click="() => { handleSetFullnameSubject(item.fullname, item.subject, item._id) }">
                                                             <i class="fas fa-plus"></i>
@@ -106,13 +108,10 @@ export default {
             for (let index = 0; index < teacherlist.length; index++) {
 
                 let timeTableTeacher = await axios.get(`http://localhost:3000/class/showOneTableTime/${teacherlist[index]._id}`)
-                // console.log(timeTableTeacher);
                 teacherlist[index].listTimeTable = timeTableTeacher.data
 
             }
             this.Class = res.data
-            //console.log(teacherlist);
-            //console.log(this.Teacher);
             this.Teacher = teacherlist
         }
         catch (err) {
@@ -231,11 +230,7 @@ export default {
                 }
                 return !check
             })
-
             this.showTeacher = newLists
-
-
-
         },
 
 

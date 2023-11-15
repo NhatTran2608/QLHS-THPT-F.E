@@ -231,7 +231,7 @@ export default {
         this.rankStudentHKI = this.RankHKI(this.FTBM(this.ScoresSum))
         this.rankStudentHKII = this.RankHKII(this.FTBM(this.ScoresSumHKII))
         this.rankStudentCN = this.Rank(this.TBCN)
-        this.HL(this.Rank(this.TBCN))
+        this.HL(this.Rank(this.TBCN),this.TBCN)
 
     },
 
@@ -428,9 +428,10 @@ export default {
             // }
         },
 
-        HL(a) {
+        HL(a, b) {
             // console.log(a);
             // console.log(this.id);
+            this.resultID.scoreResult = b
             this.resultID.Academic_ability = a
             axios.put(`http://localhost:3000/scores/update/summaryStudent/${this.resultID1}`, this.resultID)
                 .then(() => {

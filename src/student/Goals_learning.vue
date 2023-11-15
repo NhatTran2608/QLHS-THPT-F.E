@@ -88,9 +88,10 @@
                         </td>
 
                         <td v-if="(this.D15PHUT_I != undefined || this.D15PHUT_I != null)">
-                            {{ this.D15PHUT_I }} <span
-                                v-if="this.D15PHUT_IL2 != undefined || this.this.D15PHUT_IL2 != null">{{ '| ' +
-                                    this.D15PHUT_IL2 }}</span>
+                            {{ this.D15PHUT_I }}
+                            <span v-if="this.D15PHUT_IL2 != undefined">
+                                {{ '| ' + this.D15PHUT_IL2 }}
+                            </span>
                         </td>
                         <td v-if="(this.D15PHUT_I == undefined || this.D15PHUT_I == null)">
                             Chưa nhập điểm
@@ -154,8 +155,9 @@
                         </td>
                         <td v-if="this.D15PHUT_II != undefined || this.D15PHUT_II != null">
                             {{ this.D15PHUT_II }}
-                            <span v-if="this.D15PHUT_IIL2 != undefined || this.this.D15PHUT_IIL2 != null">{{ '| ' +
-                                this.D15PHUT_IIL2 }}</span>
+                            <span v-if="this.D15PHUT_IIL2 != undefined">
+                                {{ '| ' + this.D15PHUT_IIL2 }}
+                            </span>
                         </td>
                         <td v-if="this.D15PHUT_II == undefined || this.D15PHUT_II == null">
                             Chưa nhập điểm
